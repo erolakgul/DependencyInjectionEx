@@ -1,4 +1,5 @@
-﻿using Di_Injection.Core.Entity;
+﻿using Di_Injection.ApplicationService.Communication.Concrete;
+using Di_Injection.Core.Entity;
 using Di_Injection.Data.Repository.Abstracts;
 
 namespace Di_Injection.ApplicationService.Controllers
@@ -12,10 +13,16 @@ namespace Di_Injection.ApplicationService.Controllers
             _orderRepository = orderRepository;
         }
 
-        public string Create(Orders orders)
+        public bool Create(Orders orders)
         {
             _orderRepository.Create(orders);
-            return string.Empty;
+            return true;
+        }
+
+        // method injection ile ISenderService in gönderilmesi
+        public void Notify(decimal total, string email)
+        {
+            _orderRepository.NotifyTotalExpense(total, email, new EmailService());
         }
     }
 }

@@ -15,6 +15,7 @@ Orders orders = new Orders()
     ID = 1,
     CreatedBy = "EAKGUL",
     CreatedDate = DateTime.Now,
+    Email = "xyz18@gmail.com",
     OrderItems = new List<OrderItems>()
          {
              new OrderItems(){ ID = 1, Order_FKID = 1, Price = 40, Amount = 1, ProductName =  "Süt", Product_ID = 1},
@@ -23,6 +24,10 @@ Orders orders = new Orders()
          }
 };
 
-app.Create(orders);
+
+#region
+if (app.Create(orders))
+    app.Notify(orders.Total, orders.Email);
+#endregion
 
 Console.ReadLine();
