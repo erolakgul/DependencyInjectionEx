@@ -1,10 +1,13 @@
-﻿using Di_Injection.Core.Entity;
+﻿using Di_Injection.ApplicationService.Cache.Abstract;
+using Di_Injection.Core.Entity;
 using Di_Injection.Data.Repository.Abstracts;
 
 namespace Di_Injection.Data.Repository.Concrete
 {
     public class OrderRepository : IOrderRepository
     {
+        public ICacheService cacheService { get ; set ; }
+
         public void Create(Orders orders)
         {
             Console.WriteLine($"Order has been saved successfully..\n");
@@ -14,6 +17,11 @@ namespace Di_Injection.Data.Repository.Concrete
             foreach (var order in orders.OrderItems)
             {
                 Console.WriteLine($"{order.Amount} amount {order.ProductName}");
+            }
+
+            if (cacheService != default)
+            {
+                cacheService.SetCacheName(orders.CreatedBy);
             }
         }
     }
